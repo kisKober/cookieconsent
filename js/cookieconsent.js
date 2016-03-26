@@ -3,19 +3,6 @@
  * http://kovacs.tech
  */
 
-//options
-
-var cookieConsentOptions = {
-  // the description of everything
-  text : "Ez a weboldal sütiket használ, hogy a legjobb élményt biztostítsa Önnek.",
-  // more info text
-  moreInfoText : "További információ...",
-  // relative or absolute link to the cookie policy
-  moreInfoLink : "cookieconsent.html",
-  // the whitch will be on the approval button
-  buttonText : "Értem!"
-};
-
 // append cookie consent after body tag
 var init = function(){
   $('<div id="cookieconsent"></div>').prependTo(document.body);
