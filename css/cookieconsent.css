@@ -405,11 +405,18 @@ th {
   position: relative;
 }
 
-#cookieconsent #text, #cookieconsent #moreinfo {
+#cookieconsent #text {
   color: white;
   padding: 25px 0px 25px 25px;
   float: left;
   font-size: 16px;
+}
+
+#cookieconsent #moreinfo {
+  color: white;
+  float: left;
+  font-size: 16px;
+  padding: 25px 0px 25px 5px;
 }
 
 #cookieconsent #moreinfo a {
