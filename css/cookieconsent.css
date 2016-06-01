@@ -1,4 +1,8 @@
 @charset "UTF-8";
+/*
+ * coded by Dávid Kovács
+ * http://kovacs.tech
+ */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 /**
  * 1. Set default font family to sans-serif.
@@ -394,40 +398,74 @@ th {
   padding: 0;
 }
 
-/*
- * coded by Dávid Kovács
- * http://kovacs.tech
- */
 #cookieconsent {
   width: 100%;
-  background-color: black;
+  background-color: white;
   overflow: auto;
   position: relative;
+  z-index: 5;
 }
 
 #cookieconsent #text {
-  color: white;
-  padding: 25px 0px 25px 25px;
+  color: black;
   float: left;
   font-size: 16px;
+}
+
+@media (max-width: 991px), (max-height: 449px) {
+  #cookieconsent #text {
+    width: 100%;
+    text-align: center;
+    padding: 25px 0px 0px 0px;
+  }
+}
+
+@media (min-width: 992px) and (min-height: 450px) {
+  #cookieconsent #text {
+    padding: 25px 0px 25px 25px;
+  }
 }
 
 #cookieconsent #moreinfo {
-  color: white;
+  color: black;
   float: left;
   font-size: 16px;
-  padding: 25px 0px 25px 5px;
+}
+
+@media (max-width: 991px), (max-height: 449px) {
+  #cookieconsent #moreinfo {
+    width: 100%;
+    text-align: center;
+    padding: 0px 0px 25px 0px;
+  }
+}
+
+@media (min-width: 992px) and (min-height: 450px) {
+  #cookieconsent #moreinfo {
+    padding: 25px 0px 25px 5px;
+  }
 }
 
 #cookieconsent #moreinfo a {
-  color: white;
+  color: black;
 }
 
 #cookieconsent button {
   float: right;
-  width: 250px;
-  background-color: orange;
+  background-color: #00a651;
   border-style: none;
   position: relative;
   height: 70px;
+}
+
+@media (min-width: 992px) and (min-height: 450px) {
+  #cookieconsent button {
+    width: 250px;
+  }
+}
+
+@media (max-width: 991px), (max-height: 449px) {
+  #cookieconsent button {
+    width: 100%;
+  }
 }

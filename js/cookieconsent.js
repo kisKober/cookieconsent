@@ -3,14 +3,19 @@
  * http://kovacs.tech
  */
 
+var CookieConsent = function(){};
+
 // append cookie consent after body tag
-var init = function(){
+CookieConsent.prototype.init = function(options){
   $('<div id="cookieconsent"></div>').prependTo(document.body);
-  $("#cookieconsent").html(createCookieConsentHtml());
+  $("#cookieconsent").html(this.createCookieConsentHtml());
+  this.setText(options['text']);
+  this.setLink(options['moreInfoText'], options['moreInfoLink']);
+  this.setButton(options['buttonText']);
 };
 
 //create the inside of the #cookieconsent
-var createCookieConsentHtml = function(){
+CookieConsent.prototype.createCookieConsentHtml = function(){
   var cookieConsentHtml = '<div id="text"></div>';
   cookieConsentHtml += '<div id="moreinfo"></div>';
   cookieConsentHtml += '<div id="button"></div>';
@@ -22,12 +27,12 @@ var createCookieConsentHtml = function(){
 | @param text - string - this would be the description text
 | @return void
 */
-var setText = function(text){
+CookieConsent.prototype.setText = function(text){
   $("#text").html(text);
 };
 
 //set the text and read more link
-var setLink = function(moreInfoText, moreInfoLink){
+CookieConsent.prototype.setLink = function(moreInfoText, moreInfoLink){
   $("#moreinfo").html('<a href="' + moreInfoLink + '">' + moreInfoText + '</a>');
 };
 
@@ -36,18 +41,9 @@ var setLink = function(moreInfoText, moreInfoLink){
 | @param buttonText - string - this would be the text on the button
 | @return void
 */
-var setButton = function(buttonText){
+CookieConsent.prototype.setButton = function(buttonText){
   $("#button").html('<button>' + buttonText + '</button>');
 };
-
-/* Delete a cookie. In addition the selected one
-|
-| @param cname - string - the name of the cookie you wanna delete
-| @return void
-*/
-var deleteCookie = function(cname) {
-  document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-}
 
 /* set a cookie
 |
@@ -58,7 +54,7 @@ var deleteCookie = function(cname) {
 | @return void
 */
 
-var setCookie = function(cname, cvalue, exdays, path) {
+CookieConsent.prototype.setCookie = function(cname, cvalue, exdays, path) {
   var d = new Date();
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
   var expires = "expires=" + d.toUTCString();
@@ -70,7 +66,7 @@ var setCookie = function(cname, cvalue, exdays, path) {
 | @return string
 */
 
-var getCookie = function(cname) {
+CookieConsent.prototype.getCookie = function(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
     for (var i = 0; i < ca.length; i++) {
@@ -84,19 +80,35 @@ var getCookie = function(cname) {
     return "";
 }
 
+/* check if the cookie consent was aproved before
+ | @return boolean
+*/
+
+CookieConsent.prototype.isNotApproved = function(){
+  return this.getCookie("cookieconsent") != "yes";
+};
+
+/* this would happen when somebody click on the approve button
+|
+| @return void
+*/
+
+CookieConsent.prototype.approve = function(){
+  this.setCookie("cookieconsent", "yes", 60, "/");
+  $('#cookieconsent').animate({
+    height: 0
+  }, "slow");
+};
+
+var KDCC = new CookieConsent();
+
 //ignite in 3, 2, 1...
 $(document).ready(function(){
-  if(getCookie("cookieconsent") != "yes"){
-    init();
-    setText(cookieConsentOptions['text']);
-    setLink(cookieConsentOptions['moreInfoText'], cookieConsentOptions['moreInfoLink']);
-    setButton(cookieConsentOptions['buttonText']);
+  if(KDCC.isNotApproved()){
+    KDCC.init(cookieConsentOptions);
   }
 
   $('#cookieconsent > #button > button').click(function(){
-    setCookie("cookieconsent", "yes", 60, "/");
-    $('#cookieconsent').animate({
-      height: 0
-    }, "slow");
+    KDCC.approve();
   });
 });
